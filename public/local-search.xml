@@ -4,11 +4,89 @@
   
   
   <entry>
+    <title>如何通过NAT技术实现内网访问外网——从数据返回答疑说起</title>
+    <link href="/2025/04/08/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87NAT%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91%E2%80%94%E2%80%94%E4%BB%8E%E6%95%B0%E6%8D%AE%E8%BF%94%E5%9B%9E%E7%AD%94%E7%96%91%E8%AF%B4%E8%B5%B7/"/>
+    <url>/2025/04/08/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87NAT%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91%E2%80%94%E2%80%94%E4%BB%8E%E6%95%B0%E6%8D%AE%E8%BF%94%E5%9B%9E%E7%AD%94%E7%96%91%E8%AF%B4%E8%B5%B7/</url>
+    
+    <content type="html"><![CDATA[<h1>如何通过NAT技术实现内网访问外网——从数据返回答疑说起</h1><h2 id="一、什么是NAT？">一、什么是NAT？</h2><p><strong>网络地址转换</strong>（Network Address Translation，NAT）是解决IPv4地址枯竭问题的关键技术，核心功能是将私有IP地址与公有IP地址进行映射转换。在典型的办公网络环境中：</p><ul><li>内部网络使用私有IP段（如192.168.0.0/24）</li><li>对外通信时统一使用企业公网IP</li><li>路由器/NAT设备维护动态映射表</li></ul><h2 id="二、数据返程的奥秘">二、数据返程的奥秘</h2><h3 id="访问外部网站时的完整流程">访问外部网站时的完整流程</h3><pre class="mermaid">sequenceDiagram    participant 用户电脑 as 用户电脑(192.168.1.100:54321)    participant NAT设备 as 企业路由器(公网203.0.113.5)    participant 网站服务器 as Web服务器(93.184.216.34:80)        用户电脑->>NAT设备: 请求源地址转换为203.0.113.5:60001    NAT设备->>网站服务器: 发送请求    网站服务器->>NAT设备: 响应至203.0.113.5:60001    NAT设备->>用户电脑: 根据映射表还原目标地址</pre><h3 id="关键技术解析">关键技术解析</h3><ul><li>动态映射表维护<ul><li>记录四元组：内部IP:端口 ↔ 公网IP:随机端口</li><li>典型条目示例：192.168.1.100:54321 → 203.0.113.5:60001</li></ul></li><li>端口重写机制<ul><li>通过PAT（Port Address Translation）技术</li><li>支持65000+并发连接（每个端口号对应一个会话）</li></ul></li></ul><h2 id="三、为什么必须使用NAT？">三、为什么必须使用NAT？</h2><table><thead><tr><th>特性</th><th>传统网络</th><th>NAT网络</th></tr></thead><tbody><tr><td>公网IP消耗</td><td>1:1</td><td>1:N</td></tr><tr><td>网络拓扑</td><td>完全暴露</td><td>隐藏内网结构</td></tr><tr><td>安全性</td><td>低</td><td>天然防火墙</td></tr><tr><td>管理难度</td><td>高</td><td>统一出口策略</td></tr></tbody></table><h2 id="四、NAT的局限与突破">四、NAT的局限与突破</h2><ul><li><p>值得注意的挑战：</p><ul><li>影响P2P类应用（如视频会议）</li><li>增加网络延迟（平均增加3-5ms）</li><li>会话状态维持（默认超时300-600秒）</li></ul></li><li><p>现代解决方案：</p><ul><li>NAT穿透技术（STUN/TURN）</li><li>IPv6过渡方案（NAT64/DNS64）</li><li>应用层网关（ALG）支持</li></ul></li></ul><h2 id="五、技术发展趋势">五、技术发展趋势</h2><p>随着IPv6的普及，NAT技术正在发生演变：</p><ol><li>企业级NAT向CGN（运营商级NAT）延伸</li><li>容器网络中的NAT新形态（如Docker网络模型）</li><li>云原生环境下的智能NAT网关</li><li>与SDN技术结合的动态策略控制</li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>network</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux网络工具协议对比与代理模式解析</title>
+    <link href="/2025/04/08/Linux%E7%BD%91%E7%BB%9C%E5%B7%A5%E5%85%B7%E5%8D%8F%E8%AE%AE%E5%AF%B9%E6%AF%94%E4%B8%8E%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E8%A7%A3%E6%9E%90/"/>
+    <url>/2025/04/08/Linux%E7%BD%91%E7%BB%9C%E5%B7%A5%E5%85%B7%E5%8D%8F%E8%AE%AE%E5%AF%B9%E6%AF%94%E4%B8%8E%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E8%A7%A3%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<h1>Linux网络工具协议对比与代理模式解析</h1><h2 id="问题背景回顾">问题背景回顾</h2><p>用户在使用VPN时发现：</p><ul><li>浏览器可通过代理访问HTTPS网站</li><li><code>ping</code>命令（ICMP协议）无法连通</li><li><code>curl</code>需要显式指定代理参数才能工作</li><li><code>wget</code>出现协议不支持错误</li></ul><p>这引出了不同网络工具在协议支持上的差异问题。</p><hr><h2 id="常用Linux命令协议对比">常用Linux命令协议对比</h2><table><thead><tr><th>命令/工具</th><th>默认协议</th><th>代理支持情况</th><th>协议层级</th></tr></thead><tbody><tr><td><code>ping</code></td><td>ICMP</td><td>不支持任何代理</td><td>网络层</td></tr><tr><td><code>curl</code></td><td>HTTP</td><td>支持HTTP/SOCKS4/SOCKS5(h)</td><td>应用层</td></tr><tr><td><code>wget</code></td><td>HTTP</td><td>支持HTTP代理，有限SOCKS支持</td><td>应用层</td></tr><tr><td><code>telnet</code></td><td>TCP</td><td>不支持应用层代理</td><td>传输层</td></tr><tr><td><code>nslookup</code></td><td>DNS</td><td>依赖系统DNS设置</td><td>应用层</td></tr></tbody></table><hr><h2 id="SOCKS5协议详解">SOCKS5协议详解</h2><h3 id="核心特性">核心特性</h3><pre class="mermaid">graph LR    A[客户端] --> B[SOCKS5代理]    B --> C[目标服务器]    B --> D[DNS服务器]        style B fill:#e6f3ff,stroke:#4a90e2</pre><ul><li>协议版本：比SOCKS4增加UDP支持和认证机制</li><li>端口协商：支持动态端口绑定（Port Binding）</li><li>地址类型：支持IPv4/IPv6/域名三种地址格式</li><li>DNS解析：<ul><li>socks5：客户端本地解析DNS</li><li>socks5h：通过代理服务器解析DNS（防污染）</li></ul></li></ul><h3 id="报文结构示例">报文结构示例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs hex">+----+----------+----------+<br>|VER | NMETHODS | METHODS  |<br>+----+----------+----------+<br>| 05 |    01    | 00       |<br>+----+----------+----------+<br>|VER | CMD |RSV | ATYP | DST.ADDR | DST.PORT |<br>+----+-----+----+------+----------+----------+<br>| 05 | 01  | 00 |  01  | 7F000001 | 01BB     |<br>+----+-----+----+------+----------+----------+<br></code></pre></td></tr></table></figure><h2 id="VPN代理模式层级差异">VPN代理模式层级差异</h2><h3 id="1-应用层代理">1. 应用层代理</h3><pre class="mermaid">graph TD    A[浏览器] --> B[代理客户端]    B --> C[VPN服务器]    C --> D[目标网站]        style A fill:#f0f4c3,stroke:#cddc39</pre><h3 id="2-传输层代理（全局代理）">2. 传输层代理（全局代理）</h3><pre class="mermaid">graph TD    A[所有应用] --> B[TUN/TAP]    B --> C[VPN客户端]    C --> D[VPN服务器]        style B fill:#ffcdd2,stroke:#e53935</pre><h3 id="3-网络层代理（TUN模式）">3. 网络层代理（TUN模式）</h3><pre class="mermaid">graph TD    A[IP数据包] --> B[TUN设备]    B --> C[VPN封装]    C --> D[VPN隧道]        style B fill:#c8e6c9,stroke#4caf50</pre><h2 id="总结对比表">总结对比表</h2><table><thead><tr><th>代理模式</th><th>协议层级</th><th>支持命令范围</th><th>典型VPN实现</th></tr></thead><tbody><tr><td>应用层代理</td><td>应用层</td><td>浏览器/支持代理的应用</td><td>浏览器插件、PAC</td></tr><tr><td>传输层全局代理</td><td>传输层</td><td>所有TCP/UDP应用</td><td>SS/SSR全局模式</td></tr><tr><td>TUN模式代理</td><td>网络层</td><td>全协议支持</td><td>OpenVPN、WireGuard</td></tr></tbody></table><p>理解不同工具的网络协议实现差异和VPN代理的工作层级，能帮助我们更有效地诊断和解决网络连通性问题。实际使用中建议根据需求选择匹配的代理模式。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+      <tag>network</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Git使用心得——配置本地用户名</title>
+    <link href="/2025/04/08/Git%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%90%8D/"/>
+    <url>/2025/04/08/Git%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E5%90%8D/</url>
+    
+    <content type="html"><![CDATA[<h1>Git使用心得——配置本地用户名</h1><h2 id="问题背景">问题背景</h2><p>当你在两台电脑上使用<strong>同一个GitHub账号</strong>但<strong>不同的SSH密钥</strong>时，可能会遇到以下问题：</p><ul><li><p>1 提交记录显示为不同提交者</p></li><li><p>2 贡献统计不归属到目标账号</p></li><li><p>3 GitHub Actions等自动化功能鉴权失败</p></li></ul><h2 id="核心原理">核心原理</h2><h3 id="1-SSH密钥与邮箱的分工">1. SSH密钥与邮箱的分工</h3><table><thead><tr><th>组件</th><th>作用域</th><th>功能描述</th></tr></thead><tbody><tr><td>SSH密钥</td><td>仓库操作权限</td><td>代码推送/拉取的鉴权</td></tr><tr><td>Git邮箱配置</td><td>提交记录归属</td><td>决定提交者身份显示</td></tr></tbody></table><h3 id="2-GitHub账号关联规则">2. GitHub账号关联规则</h3><ul><li>邮箱匹配：提交记录中的邮箱必须与GitHub账号的<strong>已验证邮箱</strong>一致</li><li>密钥绑定：SSH密钥需添加到目标账号的<code>Settings → SSH and GPG keys</code></li></ul><h2 id="完整配置方案">完整配置方案</h2><h3 id="步骤1：统一邮箱配置">步骤1：统一邮箱配置</h3><p>在两台电脑上配置<strong>完全相同的邮箱</strong>（必须与GitHub账号已验证邮箱一致）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 全局配置（推荐）</span><br>git config --global user.email <span class="hljs-string">&quot;your_verified_email@example.com&quot;</span><br>git config --global user.name <span class="hljs-string">&quot;YourGitHubUsername&quot;</span><br><br><span class="hljs-comment"># 验证配置</span><br>git config --global --get user.email<br></code></pre></td></tr></table></figure><h3 id="步骤2：独立SSH密钥配置">步骤2：独立SSH密钥配置</h3><p>为每台电脑生成独立的SSH密钥：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 电脑A</span><br>ssh-keygen -t ed25519 -C <span class="hljs-string">&quot;your_verified_email@example.com&quot;</span> -f ~/.ssh/github_pcA<br><br><span class="hljs-comment"># 电脑B </span><br>ssh-keygen -t ed25519 -C <span class="hljs-string">&quot;your_verified_email@example.com&quot;</span> -f ~/.ssh/github_pcB<br></code></pre></td></tr></table></figure><h3 id="步骤3：配置SSH代理">步骤3：配置SSH代理</h3><p>编辑 ~/.ssh/config 文件：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 电脑A配置</span><br>Host github.com-pcA<br>    HostName github.com<br>    User git<br>    IdentityFile ~/.ssh/github_pcA<br>    IdentitiesOnly <span class="hljs-built_in">yes</span><br><br><span class="hljs-comment"># 电脑B配置  </span><br>Host github.com-pcB<br>    HostName github.com<br>    User git<br>    IdentityFile ~/.ssh/github_pcB<br>    IdentitiesOnly <span class="hljs-built_in">yes</span><br></code></pre></td></tr></table></figure><h3 id="步骤4：修改仓库远程地址">步骤4：修改仓库远程地址</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 替换远程地址格式</span><br>git remote set-url origin git@github.com-pcA:username/repo.git<br><span class="hljs-comment"># 或</span><br>git remote set-url origin git@github.com-pcB:username/repo.git<br></code></pre></td></tr></table></figure><h2 id="验证配置">验证配置</h2><h3 id="1-SSH连接测试">1. SSH连接测试</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 电脑A</span><br>ssh -T git@github.com-pcA<br><span class="hljs-comment"># 应显示：Hi YourUsername! You&#x27;ve successfully authenticated...</span><br><br><span class="hljs-comment"># 电脑B</span><br>ssh -T git@github.com-pcB <br><span class="hljs-comment"># 应显示：Hi YourUsername! You&#x27;ve successfully authenticated...</span><br></code></pre></td></tr></table></figure><h3 id="2-提交记录验证">2. 提交记录验证</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 创建测试提交</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;test&quot;</span> &gt;&gt; test.txt<br>git add . &amp;&amp; git commit -m <span class="hljs-string">&quot;commit test&quot;</span><br>git push<br><br><span class="hljs-comment"># 查看GitHub提交记录，应显示统一用户名和邮箱</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>git</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Git使用心得——fetch</title>
+    <link href="/2025/04/08/Git%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%E2%80%94%E2%80%94fetch/"/>
+    <url>/2025/04/08/Git%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%E2%80%94%E2%80%94fetch/</url>
+    
+    <content type="html"><![CDATA[<h1>Git使用心得——fetch</h1><h3 id="git-fetch">git fetch</h3><p>git fetch origin 是 Git 版本控制系统中一个常用命令，用于从远程仓库（默认命名为 origin）同步最新改动到本地，但不会自动合并或修改你的本地代码。</p><hr><h3 id="具体作用">具体作用</h3><ul><li><p>1 拉取远程更新<br>将远程仓库（如 GitHub/GitLab）的所有分支、标签和提交记录下载到本地，存储在本地的 .git 目录中（例如 origin/main 分支）。</p></li><li><p>2 不修改本地工作区<br>你的当前分支代码和文件内容保持不变，仅更新 Git 的本地仓库元数据。</p></li></ul><hr><h3 id="典型使用场景：">典型使用场景：</h3><ul><li><p>查看他人提交<br>想先检查远程仓库是否有新内容，再决定是否合并到本地分支。</p><p>git fetch origin<br>git diff main origin/main  # 查看本地 main 和远程 origin/main 的差异</p></li><li><p>手动合并更新<br>安全地将远程更新合并到本地（需后续操作）：</p><p>git fetch origin<br>git merge origin/main      # 将远程 origin/main 合并到当前分支<br>或<br>git rebase origin/main     # 以变基方式合并</p></li></ul><hr><h3 id="与-git-pull-的区别">与 git pull 的区别</h3><ul><li>git pull = git fetch + git merge<br>git pull 会直接拉取并合并代码，可能引发冲突；而 git fetch 更安全可控。</li></ul><hr><h3 id="示例流程：">示例流程：</h3><pre><code class="hljs"># 1. 拉取远程最新状态（仅同步元数据）git fetch origin# 2. 查看远程分支更新（比如 origin/main）git checkout origin/main# 3. 比较差异后决定合并git checkout maingit merge origin/main</code></pre><p>通过 git fetch，你可以灵活管理远程和本地代码的同步，避免直接操作带来的风险。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>git</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>素材资源网站推荐</title>
     <link href="/2025/04/04/%E7%B4%A0%E6%9D%90%E8%B5%84%E6%BA%90%E7%BD%91%E7%AB%99%E6%8E%A8%E8%8D%90/"/>
     <url>/2025/04/04/%E7%B4%A0%E6%9D%90%E8%B5%84%E6%BA%90%E7%BD%91%E7%AB%99%E6%8E%A8%E8%8D%90/</url>
     
-    <content type="html"><![CDATA[<h3 id="一、"><a href="#一、" class="headerlink" title="一、"></a>一、</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//www.iconfinder.com/</span><br></code></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h3 id="一、">一、</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//www.iconfinder.com/</span><br></code></pre></td></tr></table></figure>]]></content>
     
     
     
